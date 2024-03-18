@@ -1,0 +1,74 @@
+<mxfile host="app.diagrams.net" modified="2024-03-18T10:09:28.424Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5 Safari/605.1.15" etag="7bCHO-Sio3vU7ZopFZ73" version="24.0.7" type="device">
+  <diagram name="Page-1" id="vA63lPg5IML-Q1Nx4oTQ">
+    <mxGraphModel dx="949" dy="553" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="6eIYDbrvnSuN8Twf5mM5-1" value="Яндекс.Метрика (данные для оценки поведения пользователей на сайтах)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="80" y="80" width="60" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="6eIYDbrvnSuN8Twf5mM5-2" value="2-GIS (данные для статистики городов по сферам экономики)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="80" y="200" width="60" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="6eIYDbrvnSuN8Twf5mM5-3" value="Сбербанк (Данные для оценки потребительской активности)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="80" y="320" width="60" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="6eIYDbrvnSuN8Twf5mM5-4" value="List" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="310" y="135" width="159" height="180" as="geometry">
+            <mxRectangle x="341" y="70" width="60" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6eIYDbrvnSuN8Twf5mM5-5" value="Обработка дынных Яндекс.Метрика" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="6eIYDbrvnSuN8Twf5mM5-4">
+          <mxGeometry y="30" width="159" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6eIYDbrvnSuN8Twf5mM5-6" value="Обработка данных 2GIS" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="6eIYDbrvnSuN8Twf5mM5-4">
+          <mxGeometry y="60" width="159" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6eIYDbrvnSuN8Twf5mM5-7" value="Обработка данных Сбербанк" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="6eIYDbrvnSuN8Twf5mM5-4">
+          <mxGeometry y="90" width="159" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6eIYDbrvnSuN8Twf5mM5-9" value="Маппинг" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="6eIYDbrvnSuN8Twf5mM5-4">
+          <mxGeometry y="120" width="159" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6eIYDbrvnSuN8Twf5mM5-10" value="Подготовка к загрузке в хранилище" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;" vertex="1" parent="6eIYDbrvnSuN8Twf5mM5-4">
+          <mxGeometry y="150" width="159" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="6eIYDbrvnSuN8Twf5mM5-11" value="Выгрузка данных" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="6eIYDbrvnSuN8Twf5mM5-1" target="6eIYDbrvnSuN8Twf5mM5-7">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="390" y="310" as="sourcePoint" />
+            <mxPoint x="440" y="260" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="240" y="120" />
+              <mxPoint x="240" y="240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6eIYDbrvnSuN8Twf5mM5-12" value="Выгрузка данных" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="6eIYDbrvnSuN8Twf5mM5-2" target="6eIYDbrvnSuN8Twf5mM5-7">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="390" y="310" as="sourcePoint" />
+            <mxPoint x="440" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6eIYDbrvnSuN8Twf5mM5-13" value="Выгрузка данных" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="6eIYDbrvnSuN8Twf5mM5-3" target="6eIYDbrvnSuN8Twf5mM5-7">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="390" y="310" as="sourcePoint" />
+            <mxPoint x="440" y="260" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="240" y="360" />
+              <mxPoint x="240" y="240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="6eIYDbrvnSuN8Twf5mM5-14" value="Хранилище данных" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+          <mxGeometry x="590" y="200" width="60" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="6eIYDbrvnSuN8Twf5mM5-15" value="" style="endArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="6eIYDbrvnSuN8Twf5mM5-7" target="6eIYDbrvnSuN8Twf5mM5-14">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="390" y="310" as="sourcePoint" />
+            <mxPoint x="440" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
