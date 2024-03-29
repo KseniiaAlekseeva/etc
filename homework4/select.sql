@@ -1,0 +1,14 @@
+-- select * from year_1990;
+-- select * from year_1990_2000;
+-- select * from year_2000_2010;
+-- select * from year_2010_2020;
+-- select * from year_2020;
+-- select * from length_40;
+-- select * from length_40_90;
+-- select * from length_90_130;
+-- select * from length_130;
+-- select * from rate_5;
+-- select * from rate_5_8;
+-- select * from rate_8_10;
+-- select * from movies;
+select * from only movies;
