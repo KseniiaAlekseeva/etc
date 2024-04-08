@@ -3,6 +3,7 @@ import random
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from airflow.operators.bash import BashOperator
+from airflow.providers.http.operators.http import SimpleHttpOperator 
 
 def print_rand(min_val, max_val):
     num=random.randint(min_val, max_val)
@@ -36,6 +37,11 @@ python_random_operator=PythonOperator(
     python_callable=lambda:print_rand(0,10),
     dag=dag
     )
-#hello_file_operator=BashOperator(task_id='hello_file_task',bash_command='scripts/file1.sh',dag=dag)
+http_operator = SimpleHttpOperator( 
+        task_id='http_task', 
+        http_conn_id='ya_site', 
+        endpoint='/moscow', 
+        method='GET' 
+    )
 
-bash_random_operator >> python_random_operator
+bash_random_operator >> python_random_operator >> http_operator
