@@ -10,7 +10,7 @@ def print_rand(min_val, max_val):
     num2=num*num
     print(num,num2)
 
-dag=DAG('hom6_dag', description='Homework6 dag',
+dag=DAG('homework6', description='Homework6 dag',
           schedule_interval='* * * * *',
           start_date=datetime(2023, 1, 1),
           catchup=False)
@@ -37,11 +37,22 @@ python_random_operator=PythonOperator(
     python_callable=lambda:print_rand(0,10),
     dag=dag
     )
-http_operator = SimpleHttpOperator( 
-        task_id='http_task', 
-        http_conn_id='ya_site', 
-        endpoint='/moscow', 
-        method='GET' 
-    )
+http_operator = SimpleHttpOperator(
+    task_id='http_task',
+    method='GET',
+    http_conn_id='ya_site', 
+    endpoint='/moscow',
+    response_check=lambda response: check(response.status_code),
+    headers={},
+    dag=dag
+)
+
+def check(response):
+    if response == 200:
+        print("Returning True")
+        return True
+    else:
+        print("Returning False")
+        return False
 
 bash_random_operator >> python_random_operator >> http_operator
