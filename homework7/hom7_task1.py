@@ -13,7 +13,6 @@ def _get_weather(city):
     weather = response.json()
     temp = weather['main']['temp']
     ti.xcom_push(key='temperature', value=temp)
-    temp=22
     return temp
 
 def _cold_or_warm(ti):
