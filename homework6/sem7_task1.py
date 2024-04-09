@@ -31,7 +31,7 @@ def ProcessEmployees():
         postgres_conn_id="pg_conn",
         sql="""
             DROP TABLE IF EXISTS employees_temp;
-            CREATE TABLE employees_temp
+            CREATE TABLE employees_temp (
             "Serial Number" NUMERIC PRIMARY KEY,
             "Company Name" TEXT,
             "Employee Markme" TEXT,
@@ -42,7 +42,7 @@ def ProcessEmployees():
     @task
     def get_data():
         # NOTE: configure this as appropriate for your airflow environment data_path = PATH_TO_FOLDER" os.makedirs(os.path.dirname(data_path), exist_ok=True)
-        data_path="../data/data.csv"
+        data_path="/Users/kseniaalekseeva/Documents/airflow/airflow/data/data.csv"
         url = "https://raw.githubusercontent.com/apache/airflow/main/docs/apache-airflow/tutorial/pipeline_example.csv"
         response = requests.request("GET", url)
         with open(data_path, "w") as file:
@@ -76,6 +76,6 @@ def ProcessEmployees():
             return 0
         except Exception as e:
             return 1
-[create_employees_table, create_employees_temp_table] >> get_data() >> merge_data()
+    [create_employees_table, create_employees_temp_table] >> get_data() >> merge_data()
 
 dag = ProcessEmployees()
