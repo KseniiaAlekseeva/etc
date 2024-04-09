@@ -14,11 +14,11 @@ def _get_weather(city):
     temp = weather['main']['temp']
     ti.xcom_push(key='temperature', value=temp)
     temp=22
-    print(str(round(temp,1)) + '°C')
     return temp
 
 def _cold_or_warm(ti):
     temp=ti.xcom_pull(task_ids='weather_operator')
+    print(str(round(temp,1)) + '°C')
     if temp>15:
         return 'warm'
     return 'cold'
