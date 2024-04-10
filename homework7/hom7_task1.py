@@ -5,39 +5,38 @@ from airflow import DAG
 from airflow.operators.python_operator import PythonOperator, BranchPythonOperator
 from airflow.operators.bash import BashOperator
 
-def _get_weather(city):
-    weatherkey = "f1b619dd8071df18a3fb895f4b2c06c8"
-    url = "https://api.openweathermap.org/data/2.5/weather"
-    params = {'APPID' : weatherkey, 'q' : city, 'units' : 'metric'}
-    response = requests.get(url, params = params)
-    weather = response.json()
-    temp = weather['main']['temp']
-    ti.xcom_push(key='temperature', value=temp)
-    return temp
-
-def _cold_or_warm(ti):
-    temp=ti.xcom_pull(task_ids='weather_operator')
-    print(str(round(temp,1)) + '°C')
-    if temp>15:
-        return 'warm'
-    return 'cold'
-
-dag=DAG('home7', description='Homework7 dag',
-          schedule_interval='* * * * *',
+dag=DAG('homework7', description='Homework7 dag',
+          schedule_interval='0 12 * * *',
           start_date=datetime(2023, 1, 1),
           catchup=False)
 
+def get_weather(city, ti=None):
+    weatherkey = 'f1b619dd8071df18a3fb895f4b2c06c8'
+    url = "https://api.openweathermap.org/data/2.5/weather"
+    params = {'appid' : weatherkey, 'q' : city, 'units' : 'metric'}
+    response = requests.get(url, params = params)
+    temp = round(response.json()['main']['temp'],1)
+    ti.xcom_push(key='temperature', value=temp)
+    return temp
+
+def cold_or_warm(ti):
+    temp=ti.xcom_pull(key="temperature",task_ids="get_weather_task")
+    print(str(temp) + '°C')
+    if float(temp)>15:
+        return 'warm_task'
+    return 'cold_task'
+
 get_weather=PythonOperator(
     task_id='get_weather_task',
-    python_callable=_get_weather,
-    op_kwargs={'city':"Moscow"},
+    python_callable=get_weather,
+    op_kwargs={'city':'Moscow'},
     dag=dag
-    )
+)
 cold_or_warm=BranchPythonOperator(
     task_id='cold_or_warm_task',
-    python_callable=_cold_or_warm,
+    python_callable=cold_or_warm,
     dag=dag
-    )
+)
 cold = BashOperator(
     task_id="cold_task",
     bash_command="echo 'cold'"
