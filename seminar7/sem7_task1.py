@@ -5,6 +5,7 @@ import requests
 from airflow.decorators import dag, task
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 from airflow.providers.postgres.operators.postgres import PostgresOperator
+from airflow.operators.email_operator import EmailOperator
 
 @dag(
     dag_id="process-employees",
@@ -42,7 +43,7 @@ def ProcessEmployees():
     @task
     def get_data():
         # NOTE: configure this as appropriate for your airflow environment data_path = PATH_TO_FOLDER" os.makedirs(os.path.dirname(data_path), exist_ok=True)
-        data_path="/Users/kseniaalekseeva/Documents/airflow/airflow/data/data.csv"
+        data_path="/usr/local/airflow/data/data.csv"
         url = "https://raw.githubusercontent.com/apache/airflow/main/docs/apache-airflow/tutorial/pipeline_example.csv"
         response = requests.request("GET", url)
         with open(data_path, "w") as file:
@@ -58,7 +59,11 @@ def ProcessEmployees():
             conn.commit()
             
     @task
-    def merge_data():
+    def merge_data(ti=None):
+        count_q="""
+            SELECT COUNT(*)
+            FROM employees;
+            """
         query = """
             INSERT INTO employees SELECT *
             FROM (
@@ -71,11 +76,24 @@ def ProcessEmployees():
             postgres_hook = PostgresHook(postgres_conn_id="pg_conn")
             conn = postgres_hook.get_conn()
             cur = conn.cursor()
+            res_before=int(conn.execute(count_q))
             cur.execute(query)
             conn.commit()
+            res_before=int(conn.execute(count_q))
+            ti.xcom_push(key="Number of added rows",value=res_after-res_before)
             return 0
         except Exception as e:
             return 1
-    [create_employees_table, create_employees_temp_table] >> get_data() >> merge_data()
+    @task
+    def send_email(ti=None):
+        number_of_added_rows=ti.xcom_pull(task_ids='merge_data')
+        if number_of_added_rows>0:
+            email='csusha-aleks@yandex.ru'
+            msg=f"Added {number_of_added_rows} rows."
+            subject="Added rows"
+            EmailOperator(task_id="send_email",to=email,subject=subject, html_content=msg)
+            
+    
+    [create_employees_table, create_employees_temp_table] >> get_data() >> merge_data() >> send_email()
 
 dag = ProcessEmployees()
