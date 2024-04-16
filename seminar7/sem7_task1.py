@@ -61,37 +61,39 @@ def ProcessEmployees():
     @task
     def merge_data(ti=None):
         count_q="""
-            SELECT COUNT(*)
-            FROM employees;
-            """
+                SELECT COUNT(*) FROM employees;
+                """
         query = """
             INSERT INTO employees SELECT *
             FROM (
             SELECT DISTINCT *
             FROM employees_temp
-            )
+            ) AS emp
             ON CONFLICT ("Serial Number") DO UPDATE
             SET "Serial Number" = excluded."Serial Number"; """
         try:
             postgres_hook = PostgresHook(postgres_conn_id="pg_conn")
             conn = postgres_hook.get_conn()
             cur = conn.cursor()
-            res_before=int(conn.execute(count_q))
+            cur.execute(count_q)
+            res_before=int(cur.fetchone()[0])
             cur.execute(query)
             conn.commit()
-            res_before=int(conn.execute(count_q))
-            ti.xcom_push(key="Number of added rows",value=res_after-res_before)
-            return 0
+            cur.execute(count_q)
+            res_after=int(cur.fetchone()[0])
+            ti.xcom_push(key="rows",value=res_after-res_before)
         except Exception as e:
-            return 1
+            ti.xcom_push(key="rows",value=0)
+
     @task
     def send_email(ti=None):
-        number_of_added_rows=ti.xcom_pull(task_ids='merge_data')
+        number_of_added_rows=ti.xcom_pull(task_ids="merge_data", key="rows")
+        print(f'Number of added rows - {number_of_added_rows}')
         if number_of_added_rows>0:
             email='csusha-aleks@yandex.ru'
             msg=f"Added {number_of_added_rows} rows."
-            subject="Added rows"
-            EmailOperator(task_id="send_email",to=email,subject=subject, html_content=msg)
+            subj='Adding rows'
+            EmailOperator(task_id='send_email',to=email,subject=subj, html_content=msg)
             
     
     [create_employees_table, create_employees_temp_table] >> get_data() >> merge_data() >> send_email()
